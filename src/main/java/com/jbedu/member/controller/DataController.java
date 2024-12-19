@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -144,12 +145,46 @@ public class DataController {
 //	}
 	
 	@RequestMapping(value = "/joinOk2")
-	public String joinOk2(@ModelAttribute("ddd") MemberDto memberDto, Model model) {		
-		//memberDto 객체의 이름을 ddd로 변경하여 model 객체에도 ddd 이름으로 memberDto객체를 실어 보냄
-
+	public String joinOk2(@ModelAttribute("dto") MemberDto memberDto, Model model) {		
+		//memberDto 객체의 이름을 dto로 변경하여 model 객체에도 dto 이름으로 memberDto객체를 실어 보냄
+		//DTO 클래스의 이름이 너무 길어서 불편할 때 이름 변경 
 		
 		return "joinOk2";
 	}
 	
-
+	@RequestMapping(value = "/page/{pagevalue}") //javascript 등으로 넘어오는 매개 변수 형식 
+	public String pagevalue(@PathVariable String pagevalue, Model model) {
+		model.addAttribute("page", pagevalue);
+		return "page";
+	}
+	
+	@RequestMapping(value = "/redirect")
+	public String redirect() {
+		return "redirect";
+	}
+	
+	@RequestMapping(value = "/redirectGood")
+	public String redirectOk(@RequestParam("number") String number, Model model) {
+		
+		int number_int = Integer.parseInt(number);//문자->정수 변환
+		
+		if(number_int > 10) {
+			model.addAttribute("number", number);
+			return "redirectOk";//jsp 파일을 실행시켜라!
+			//return "redirect:redirectOk" -> 새로운 요청으로 redirectOk 요청이 서버에 전달됨
+		} else {
+			model.addAttribute("number", "0000");
+			return "redirectNo";
+		}
+	}
+	
+	@RequestMapping(value = "/redirectOk") //redirectOk.jsp 매핑
+	public String redirectGood(Model model) {
+		
+		model.addAttribute("number", "안녕하세요!!");
+		
+		return "redirectOk";
+	}
+	
+	
 }
