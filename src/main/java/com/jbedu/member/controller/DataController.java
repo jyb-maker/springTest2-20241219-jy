@@ -1,5 +1,7 @@
 package com.jbedu.member.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +32,30 @@ public class DataController {
 		return mv;
 		
 		
+	}
+	
+	@RequestMapping(value="/login")
+	public String login() {
+		
+		return "login";
+	}
+
+	@RequestMapping(value = "/confirmID") // 클라이언트의 로그인 요청을 여기서 catch!(파라미터 값도 함께)
+	public String confirmID(HttpServletRequest request, Model model) {
+		
+		String mid = request.getParameter("mid");
+		String mpw = request.getParameter("mpw");		
+		
+//		if(mid.equals("tiger") && mpw.equals("12345")) {
+//			model.addAttribute("idcheck", "memberOk");
+//		} else {
+//			model.addAttribute("idcheck", "memberNo");
+//		}
+		
+		model.addAttribute("loginid", mid);
+		model.addAttribute("loginpw", mpw);
+		
+		return "confirmID";
 	}
 	
 }
