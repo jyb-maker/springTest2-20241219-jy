@@ -4,10 +4,13 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.jbedu.member.dto.MemberDto;
 
 @Controller
 public class DataController {
@@ -102,13 +105,51 @@ public class DataController {
 		return "checkID";
 	}
 	
+	@RequestMapping(value = "/join")
+	public String join() {
+		return "join";
+	}
 	
+	@RequestMapping(value = "/join2")
+	public String join2() {
+		return "join2";
+	}
 	
+	@RequestMapping(value = "/joinOk")
+	public String joinOk(HttpServletRequest request, Model model) {
+		
+		String mid = request.getParameter("mid");
+		String mpw = request.getParameter("mpw");
+		String mname = request.getParameter("mname");
+		String memail = request.getParameter("memail");
+		
+		MemberDto memberDto = new MemberDto(mid, mpw, mname, memail);
+		
+		model.addAttribute("memberDto", memberDto); //model에 dto 실어 보내기
+		
+//		model.addAttribute("mid", mid);
+//		model.addAttribute("mpw", mpw);
+//		model.addAttribute("mname", mname);
+//		model.addAttribute("memail", memail);
+		
+		return "joinOk";
+	}
 	
+//	@RequestMapping(value = "/joinOk2")
+//	public String joinOk2(MemberDto memberDto, Model model) {		
+//		
+//		//model.addAttribute("memberDto", memberDto); //model에 dto 실어 보내기
+//		
+//		return "joinOk";
+//	}
 	
-	
-	
-	
+	@RequestMapping(value = "/joinOk2")
+	public String joinOk2(@ModelAttribute("ddd") MemberDto memberDto, Model model) {		
+		//memberDto 객체의 이름을 ddd로 변경하여 model 객체에도 ddd 이름으로 memberDto객체를 실어 보냄
+
+		
+		return "joinOk2";
+	}
 	
 
 }
